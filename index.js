@@ -6,18 +6,26 @@ var htmlClass = (function (info) {'use strict';
     toHyphenCase = function ($0, $1, $2) {
       return $1 + '-' + $2;
     },
+    assignTag = function (Class, tag) {
+      arr = [].concat(tag);
+      while (arr.length) {
+        tag = arr.pop();
+        register[Class] = tag;
+        register[tag] = register[tag.toUpperCase()] = Class;
+      }
+    },
     specials = info.specials,
     register = (Object.create || Object)(null),
     htmlClass = {},
-    i, klass, length, list, tag
+    arr, i, length, list, tag
   ;
   for (list = info.containers, i = 0, length = list.length; i < length; i++) {
     tag = list[i];
-    klass = 'HTML' + tag;
-    tag = specials.hasOwnProperty(tag) ?
-      specials[tag] : tag.toLowerCase();
-    register[klass] = tag;
-    register[tag] = register[tag.toUpperCase()] = klass;
+    assignTag(
+      'HTML' + tag,
+      specials.hasOwnProperty(tag) ?
+        specials[tag] : tag.toLowerCase()
+    );
   }
   for (list = info.defaults, i = 0, length = list.length; i < length; i++) {
     tag = list[i];
@@ -25,23 +33,24 @@ var htmlClass = (function (info) {'use strict';
   }
   for (list = info.elements, i = 0, length = list.length; i < length; i++) {
     tag = list[i];
-    klass = 'HTML' + tag + 'Element';
-    tag = specials.hasOwnProperty(tag) ?
-      specials[tag] : tag.toLowerCase();
-    register[klass] = tag;
-    register[tag] = register[tag.toUpperCase()] = klass;
+    assignTag(
+      'HTML' + tag + 'Element',
+      specials.hasOwnProperty(tag) ?
+        specials[tag] : tag.toLowerCase()
+    );
   }
   for (list = info.extras, i = 0, length = list.length; i < length; i++) {
-    klass = list[i];
-    tag = specials.hasOwnProperty(tag) ?
-      specials[tag] :
-      ('#' + klass.replace(catchCamel, toHyphenCase).toLowerCase());
-    register[klass] = tag;
-    register[tag] = register[tag.toUpperCase()] = klass;
+    tag = list[i];
+    assignTag(
+      tag,
+      specials.hasOwnProperty(tag) ?
+        specials[tag] :
+        ('#' + tag.replace(catchCamel, toHyphenCase).toLowerCase())
+    );
   }
   htmlClass.get = function (tagOrClass) {
     return register[tagOrClass] ||
-          (catchClass.test(tagOrClass) ? 'unknown' : 'Unknown');
+          (catchClass.test(tagOrClass) ? 'unknown' : 'HTMLUnknownElement');
   };
   htmlClass.set = function (tag, Class) {
     if (!(tag in register || Class in register)) {
@@ -67,10 +76,43 @@ var htmlClass = (function (info) {'use strict';
     'OptionsCollection'
   ],
   defaults: [
+    'abbr',
+    'address',
+    'article',
+    'aside',
+    'b',
+    'bdi',
+    'bdo',
+    'cite',
+    'code',
+    'dd',
+    'dfn',
+    'dt',
     'em',
+    'figcaption',
+    'figure',
+    'footer',
+    'header',
+    'hgroup',
     'i',
+    'kbd',
+    'main',
+    'mark',
+    'nav',
+    'rp',
+    'rt',
+    'rtc',
     'ruby',
-    'strong'
+    's',
+    'samp',
+    'small',
+    'sub',
+    'sup',
+    'strong',
+    'time',
+    'u',
+    'var',
+    'wbr'
   ],
   elements: [
     '',
@@ -152,6 +194,18 @@ var htmlClass = (function (info) {'use strict';
     '': 'element',
     'Anchor': 'a',
     'DList': 'dl',
+    'Heading': [
+      'h1',
+      'h2',
+      'h3',
+      'h4',
+      'h5',
+      'h6'
+    ],
+    'Mod': [
+      'del',
+      'ins'
+    ],
     'OList': 'ol',
     'Paragraph': 'p',
     'TableCaption': 'caption',

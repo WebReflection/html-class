@@ -3,18 +3,52 @@ var htmlClass = require('../index.js');
 //:remove
 
 var info = {
-  specials: {
-    'Anchor': 'a',
-    'DList': 'dl',
-    'OList': 'ol',
-    'Paragraph': 'p',
-    'TableCaption': 'caption',
-    'TableCell': 'td',
-    'TableCol': 'colgroup',
-    'TableRow': 'tr',
-    'TableSection': 'tbody',
-    'UList': 'ul'
-  },
+  containers: [
+    'AllCollection',
+    'Collection',
+    'Document',
+    'FormControlsCollection',
+    'OptionsCollection'
+  ],
+  defaults: [
+    'abbr',
+    'address',
+    'article',
+    'aside',
+    'b',
+    'bdi',
+    'bdo',
+    'cite',
+    'code',
+    'dd',
+    'dfn',
+    'dt',
+    'em',
+    'figcaption',
+    'figure',
+    'footer',
+    'header',
+    'hgroup',
+    'i',
+    'kbd',
+    'main',
+    'mark',
+    'nav',
+    'rp',
+    'rt',
+    'rtc',
+    'ruby',
+    's',
+    'samp',
+    'small',
+    'sub',
+    'sup',
+    'strong',
+    'time',
+    'u',
+    'var',
+    'wbr'
+  ],
   elements: [
     '',
     'Anchor',
@@ -88,16 +122,34 @@ var info = {
     'Unknown',
     'Video'
   ],
-  containers: [
-    'AllCollection',
-    'Collection',
-    'Document',
-    'FormControlsCollection',
-    'OptionsCollection'
-  ],
   extras: [
     'DocumentFragment'
-  ]
+  ],
+  specials: {
+    '': 'element',
+    'Anchor': 'a',
+    'DList': 'dl',
+    'Heading': [
+      'h1',
+      'h2',
+      'h3',
+      'h4',
+      'h5',
+      'h6'
+    ],
+    'Mod': [
+      'del',
+      'ins'
+    ],
+    'OList': 'ol',
+    'Paragraph': 'p',
+    'TableCaption': 'caption',
+    'TableCell': 'td',
+    'TableCol': 'colgroup',
+    'TableRow': 'tr',
+    'TableSection': 'tbody',
+    'UList': 'ul'
+  }
 };
 
 wru.test([
@@ -116,11 +168,11 @@ wru.test([
           Class,
           (
             htmlClass.get(Class) === info.elements[i].toLowerCase() ||
-            htmlClass.get(Class) === info.specials[info.elements[i]] ||
+            htmlClass.get(Class) === [].concat(info.specials[info.elements[i]])[0] ||
             Class === 'HTMLElement'
           ) && (
             htmlClass.get(info.elements[i].toLowerCase()) === Class ||
-            htmlClass.get(info.specials[info.elements[i]]) === Class ||
+            htmlClass.get([].concat(info.specials[info.elements[i]])[0]) === Class ||
             Class === 'HTMLElement'
           )
         );
@@ -135,10 +187,10 @@ wru.test([
           Class,
           (
             htmlClass.get(Class) === info.containers[i].toLowerCase() ||
-            htmlClass.get(Class) === info.specials[info.containers[i]]
+            htmlClass.get(Class) === [].concat(info.specials[info.containers[i]])[0]
           ) && (
             htmlClass.get(info.containers[i].toLowerCase()) === Class ||
-            htmlClass.get(info.specials[info.containers[i]]) === Class
+            htmlClass.get([].concat(info.specials[info.containers[i]])[0]) === Class
           )
         );
       }
@@ -185,7 +237,7 @@ wru.test([
     name: 'unknown',
     test: function () {
       wru.assert(htmlClass.get('Shenanigans') === 'unknown');
-      wru.assert(htmlClass.get('shena-nigans') === 'Unknown');
+      wru.assert(htmlClass.get('shena-nigans') === 'HTMLUnknownElement');
     }
   }, {
     name: 'defaults',
