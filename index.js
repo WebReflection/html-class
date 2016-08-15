@@ -3,8 +3,12 @@ var htmlClass = (function (info) {'use strict';
   var
     catchClass = /^[A-Z]+[a-z]/,
     catchCamel = /([a-z])([A-Z])/g,
+    toHyphenCase = function ($0, $1, $2) {
+      return $1 + '-' + $2;
+    },
     specials = info.specials,
     register = (Object.create || Object)(null),
+    htmlClass = {},
     i, klass, length, list, tag
   ;
   for (list = info.containers, i = 0, length = list.length; i < length; i++) {
@@ -35,14 +39,10 @@ var htmlClass = (function (info) {'use strict';
     register[klass] = tag;
     register[tag] = register[tag.toUpperCase()] = klass;
   }
-  function toHyphenCase($0, $1, $2) {
-    return $1 + '-' + $2;
-  }
-  function htmlClass(tagOrClass) {
+  htmlClass.get = function (tagOrClass) {
     return register[tagOrClass] ||
           (catchClass.test(tagOrClass) ? 'unknown' : 'Unknown');
-  }
-  htmlClass.get = htmlClass;
+  };
   htmlClass.set = function (tag, Class) {
     if (!(tag in register || Class in register)) {
       if (catchClass.test(tag)) {
@@ -163,4 +163,4 @@ var htmlClass = (function (info) {'use strict';
   }
 }));
 
-try { module.exports = {get: htmlClass.get, set: htmlClass.set}; } catch(meh) {}
+try { module.exports = htmlClass; } catch(meh) {}
