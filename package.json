@@ -1,6 +1,6 @@
 {
   "name": "html-class",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A basic utility to retrieve a DOM node name from its constructor and vice-versa",
   "main": "index.js",
   "scripts": {
