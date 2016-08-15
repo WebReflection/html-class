@@ -1,0 +1,29 @@
+{
+  "name": "html-class",
+  "version": "1.0.0",
+  "description": "A basic utility to retrieve a DOM node name from its constructor and vice-versa",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebReflection/html-class.git"
+  },
+  "keywords": [
+    "dom",
+    "tag",
+    "node",
+    "html",
+    "constructor"
+  ],
+  "author": "Andrea Giammarchi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WebReflection/html-class/issues"
+  },
+  "homepage": "https://github.com/WebReflection/html-class#readme",
+  "devDependencies": {
+    "wru": "^0.3.0"
+  }
+}
