@@ -14,6 +14,13 @@ var htmlClass = (function (info) {'use strict';
         register[tag] = register[tag.toUpperCase()] = Class;
       }
     },
+    filterBy = function (re) {
+      arr = [];
+      for (tag in register) {
+        if (re.test(tag)) arr.push(tag);
+      }
+      return arr.splice(0, arr.length);
+    },
     specials = info.specials,
     register = (Object.create || Object)(null),
     htmlClass = {},
@@ -49,8 +56,9 @@ var htmlClass = (function (info) {'use strict';
     );
   }
   htmlClass.get = function (tagOrClass) {
-    return register[tagOrClass] ||
-          (catchClass.test(tagOrClass) ? 'unknown' : 'HTMLUnknownElement');
+    return typeof tagOrClass === 'string' ?
+      (register[tagOrClass] || (catchClass.test(tagOrClass) ? 'unknown' : 'HTMLUnknownElement')) :
+      filterBy(tagOrClass);
   };
   htmlClass.set = function (tag, Class) {
     if (!(tag in register || Class in register)) {

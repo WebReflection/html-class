@@ -276,5 +276,13 @@ wru.test([
         htmlClass.get('MyElement') === 'my-el'
       );
     }
+  }, {
+    name: 'filter',
+    test: function () {
+      wru.assert(
+        htmlClass.get(/^HTMLButton/).length === 1 &&
+        htmlClass.get(/^HTMLButton/)[0] === 'HTMLButtonElement'
+      );
+    }
   }
 ]);

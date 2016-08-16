@@ -18,4 +18,15 @@ htmlClass.set('my-other', 'MyOther');
 
 The API right now is literally just a `.get(tagOrClass)` and a `.set(tag, Class)` that also works as `.set(Class, tag)`.
 
+As special feature, `.get(regExp)` returns an array of known classes or elements that match the regular expression.
+
+```js
+// returns ['HTMLButtonElement']
+htmlClass.get(/^HTMLButton/);
+
+// returns all known/registered custom elements
+// ['my-el', 'x-form', 'some-data']
+htmlClass.get(/\w-/);
+```
+
 The code is compatible with every JavaScript engine, either browsers or servers.
