@@ -36,20 +36,20 @@ wru.test([
       wru.assert(
         'tag, Class',
         htmlClass.get('my-el') === 'MyElement' &&
-        htmlClass.get('MyElement') === 'my-el'
+        htmlClass.get('MyElement')[0] === 'my-el'
       );
       htmlClass.set('MyOther', 'my-other');
       wru.assert(
         'Class, tag',
         htmlClass.get('my-other') === 'MyOther' &&
-        htmlClass.get('MyOther') === 'my-other'
+        htmlClass.get('MyOther')[0] === 'my-other'
       );
     }
   }, {
     name: 'unknown',
     test: function () {
-      wru.assert(htmlClass.get('Shenanigans') === 'unknown');
-      wru.assert(htmlClass.get('shena-nigans') === 'HTMLUnknownElement');
+      wru.assert(htmlClass.get('Shenanigans')[0] === undefined);
+      wru.assert(htmlClass.get('shena-nigans') === '');
     }
   }, {
     name: 'defaults',
@@ -67,15 +67,15 @@ wru.test([
       wru.assert(
         'tag, Class',
         htmlClass.get('a') === 'HTMLAnchorElement' &&
-        htmlClass.get('MyElement')[0] === 'my-el' &&
+        htmlClass.get('WhatEver')[0] === undefined &&
         htmlClass.get('HTMLAnchorElement')[0] === 'a'
       );
-      htmlClass.set('WhatEverElse', 'div');
+      htmlClass.set('WhatEverElse', 'a');
       wru.assert(
         'tag, Class',
-        htmlClass.get('div') === 'HTMLDivElement' &&
-        htmlClass.get('WhatEverElse')[0] === 'unknown' &&
-        htmlClass.get('HTMLDivElement')[0] === 'div'
+        htmlClass.get('a') === 'HTMLAnchorElement' &&
+        htmlClass.get('WhatEverElse')[0] === undefined &&
+        htmlClass.get('HTMLAnchorElement')[0] === 'a'
       );
     }
   }, {
@@ -85,7 +85,7 @@ wru.test([
       wru.assert(
         'tag, Class',
         htmlClass.get('my-el') === 'MyElement' &&
-        htmlClass.get('MyElement') === 'my-el'
+        htmlClass.get('MyElement')[0] === 'my-el'
       );
     }
   }, {

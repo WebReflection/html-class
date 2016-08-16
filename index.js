@@ -32,7 +32,7 @@ var htmlClass = (function (info) {'use strict';
   }
   htmlClass.get = function get(tagOrClass) {
     return typeof tagOrClass === 'string' ?
-      (register[tagOrClass] || (catchClass.test(tagOrClass) ? 'unknown' : 'HTMLUnknownElement')) :
+      (register[tagOrClass] || (catchClass.test(tagOrClass) ? [] : '')) :
       filterBy(tagOrClass);
   };
   htmlClass.set = function set(tag, Class) {
