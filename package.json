@@ -4,6 +4,7 @@
   "description": "A basic utility to retrieve a DOM node name from its constructor and vice-versa",
   "main": "index.js",
   "scripts": {
+    "build": "node build.js",
     "test": "node test/.test.js"
   },
   "repository": {
