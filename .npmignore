@@ -2,3 +2,6 @@
 .travis.yml
 node_modules
 test
+build.js
+html-class.js
+info.json

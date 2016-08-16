@@ -1,156 +1,7 @@
 //remove:
 var htmlClass = require('../index.js');
+var info = require('../info.json');
 //:remove
-
-var info = {
-  containers: [
-    'AllCollection',
-    'Collection',
-    'Document',
-    'FormControlsCollection',
-    'OptionsCollection'
-  ],
-  defaults: [
-    'abbr',
-    'address',
-    'article',
-    'aside',
-    'b',
-    'bdi',
-    'bdo',
-    'cite',
-    'code',
-    'dd',
-    'dfn',
-    'dt',
-    'em',
-    'figcaption',
-    'figure',
-    'footer',
-    'header',
-    'hgroup',
-    'i',
-    'kbd',
-    'main',
-    'mark',
-    'nav',
-    'rp',
-    'rt',
-    'rtc',
-    'ruby',
-    's',
-    'samp',
-    'small',
-    'sub',
-    'sup',
-    'strong',
-    'time',
-    'u',
-    'var',
-    'wbr'
-  ],
-  elements: [
-    '',
-    'Anchor',
-    'Area',
-    'Audio',
-    'BR',
-    'Base',
-    'Body',
-    'Button',
-    'Canvas',
-    'Content',
-    'DList',
-    'DataList',
-    'Details',
-    'Dialog',
-    'Directory',
-    'Div',
-    'Embed',
-    'FieldSet',
-    'Font',
-    'Form',
-    'Frame',
-    'FrameSet',
-    'HR',
-    'Head',
-    'Heading',
-    'Html',
-    'IFrame',
-    'Image',
-    'Input',
-    'Keygen',
-    'LI',
-    'Label',
-    'Legend',
-    'Link',
-    'Map',
-    'Marquee',
-    'Media',
-    'Menu',
-    'Meta',
-    'Meter',
-    'Mod',
-    'OList',
-    'Object',
-    'OptGroup',
-    'Option',
-    'Output',
-    'Paragraph',
-    'Param',
-    'Picture',
-    'Pre',
-    'Progress',
-    'Quote',
-    'Script',
-    'Select',
-    'Shadow',
-    'Source',
-    'Span',
-    'Style',
-    'TableCaption',
-    'TableCell',
-    'TableCol',
-    'Table',
-    'TableRow',
-    'TableSection',
-    'Template',
-    'TextArea',
-    'Title',
-    'Track',
-    'UList',
-    'Unknown',
-    'Video'
-  ],
-  extras: [
-    'DocumentFragment'
-  ],
-  specials: {
-    '': 'element',
-    'Anchor': 'a',
-    'DList': 'dl',
-    'Heading': [
-      'h1',
-      'h2',
-      'h3',
-      'h4',
-      'h5',
-      'h6'
-    ],
-    'Mod': [
-      'del',
-      'ins'
-    ],
-    'OList': 'ol',
-    'Paragraph': 'p',
-    'TableCaption': 'caption',
-    'TableCell': 'td',
-    'TableCol': 'colgroup',
-    'TableRow': 'tr',
-    'TableSection': 'tbody',
-    'UList': 'ul'
-  }
-};
 
 wru.test([
   {
@@ -168,51 +19,12 @@ wru.test([
           Class,
           (
             htmlClass.get(Class) === info.elements[i].toLowerCase() ||
-            htmlClass.get(Class) === [].concat(info.specials[info.elements[i]])[0] ||
+            htmlClass.get(Class) === info.specials[info.elements[i]][0] ||
             Class === 'HTMLElement'
           ) && (
             htmlClass.get(info.elements[i].toLowerCase()) === Class ||
-            htmlClass.get([].concat(info.specials[info.elements[i]])[0]) === Class ||
+            htmlClass.get(info.specials[info.elements[i]][0]) === Class ||
             Class === 'HTMLElement'
-          )
-        );
-      }
-    }
-  }, {
-    name: 'containers',
-    test: function () {
-      for (var Class, i = 0; i < info.containers.length; i++) {
-        Class = 'HTML' + info.containers[i];
-        wru.assert(
-          Class,
-          (
-            htmlClass.get(Class) === info.containers[i].toLowerCase() ||
-            htmlClass.get(Class) === [].concat(info.specials[info.containers[i]])[0]
-          ) && (
-            htmlClass.get(info.containers[i].toLowerCase()) === Class ||
-            htmlClass.get([].concat(info.specials[info.containers[i]])[0]) === Class
-          )
-        );
-      }
-    }
-  }, {
-    name: 'extras',
-    test: function () {
-      function toExtra(name) {
-        return '#' + name.replace(/([a-z])([A-Z])/g, function ($0, $1, $2) {
-          return $1 + '-' + $2;
-        }).toLowerCase();
-      }
-      for (var Class, i = 0; i < info.extras.length; i++) {
-        Class = info.extras[i];
-        wru.assert(
-          Class,
-          (
-            htmlClass.get(Class) === toExtra(info.extras[i]) ||
-            htmlClass.get(Class) === info.specials[info.extras[i]]
-          ) && (
-            htmlClass.get(toExtra(info.extras[i])) === Class ||
-            htmlClass.get(info.specials[info.extras[i]]) === Class
           )
         );
       }
@@ -224,20 +36,20 @@ wru.test([
       wru.assert(
         'tag, Class',
         htmlClass.get('my-el') === 'MyElement' &&
-        htmlClass.get('MyElement') === 'my-el'
+        htmlClass.get('MyElement')[0] === 'my-el'
       );
       htmlClass.set('MyOther', 'my-other');
       wru.assert(
         'Class, tag',
         htmlClass.get('my-other') === 'MyOther' &&
-        htmlClass.get('MyOther') === 'my-other'
+        htmlClass.get('MyOther')[0] === 'my-other'
       );
     }
   }, {
     name: 'unknown',
     test: function () {
-      wru.assert(htmlClass.get('Shenanigans') === 'unknown');
-      wru.assert(htmlClass.get('shena-nigans') === 'HTMLUnknownElement');
+      wru.assert(htmlClass.get('Shenanigans')[0] === undefined);
+      wru.assert(htmlClass.get('shena-nigans') === '');
     }
   }, {
     name: 'defaults',
@@ -245,7 +57,7 @@ wru.test([
       wru.assert(htmlClass.get('i') === 'HTMLElement');
       wru.assert(htmlClass.get('ruby') === 'HTMLElement');
       wru.assert(htmlClass.get('em') === 'HTMLElement');
-      wru.assert(htmlClass.get('HTMLElement') === 'element');
+      wru.assert(htmlClass.get('HTMLElement')[0] === 'element');
       wru.assert(htmlClass.get('element') === 'HTMLElement');
     }
   }, {
@@ -255,15 +67,15 @@ wru.test([
       wru.assert(
         'tag, Class',
         htmlClass.get('a') === 'HTMLAnchorElement' &&
-        htmlClass.get('MyElement') === 'my-el' &&
-        htmlClass.get('HTMLAnchorElement') === 'a'
+        htmlClass.get('WhatEver')[0] === undefined &&
+        htmlClass.get('HTMLAnchorElement')[0] === 'a'
       );
-      htmlClass.set('WhatEverElse', 'div');
+      htmlClass.set('WhatEverElse', 'a');
       wru.assert(
         'tag, Class',
-        htmlClass.get('div') === 'HTMLDivElement' &&
-        htmlClass.get('WhatEverElse') === 'unknown' &&
-        htmlClass.get('HTMLDivElement') === 'div'
+        htmlClass.get('a') === 'HTMLAnchorElement' &&
+        htmlClass.get('WhatEverElse')[0] === undefined &&
+        htmlClass.get('HTMLAnchorElement')[0] === 'a'
       );
     }
   }, {
@@ -273,7 +85,7 @@ wru.test([
       wru.assert(
         'tag, Class',
         htmlClass.get('my-el') === 'MyElement' &&
-        htmlClass.get('MyElement') === 'my-el'
+        htmlClass.get('MyElement')[0] === 'my-el'
       );
     }
   }, {
