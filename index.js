@@ -48,10 +48,10 @@ var htmlClass = (function (info) {'use strict';
       "all"
     ],
     "HTMLCollection": [
-      "forms"
+      "elements"
     ],
     "HTMLFormControlsCollection": [
-      "elements"
+      "forms"
     ],
     "HTMLOptionsCollection": [
       "options"
